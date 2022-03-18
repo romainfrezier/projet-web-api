@@ -1,6 +1,9 @@
 const http = require('http')
 const express = require('express')
 const cors = require('cors')
+const dotenv = require('dotenv')
+
+dotenv.config({ path: './.env' });
 
 const app = express()
 app.use(express.json())
@@ -36,7 +39,7 @@ const normalizePort = val => {
     }
     return false
 }
-const port = normalizePort(process.env.PORT || '4000')
+const port = normalizePort(process.env.PORT)
 
 app.set('port', port)
 

@@ -4,6 +4,6 @@ module.exports = {
     database: 'ProjetWeb',
     schema: 'ProjetWeb',
     password: process.env.DB_PASSWORD,
-    port: process.env.PORT,
+    port: process.env.DB_PORT,
     dialect: 'postgres',
 };

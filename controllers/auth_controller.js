@@ -5,6 +5,7 @@ const User = db.users
 const CryptoJS = require('crypto-js')
 
 exports.signup = (request, response) => {
+    console.log(process.env.KEY)
     // Validate request
     if (!request.body.username || !request.body.password) {
         response.status(400).send({
