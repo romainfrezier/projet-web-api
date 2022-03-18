@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const jsonWebToken = require('jsonwebtoken')
 const db = require("../models")
 const User = db.users
+const CryptoJS = require('crypto-js')
 
 exports.signup = (request, response) => {
     // Validate request
@@ -11,13 +12,14 @@ exports.signup = (request, response) => {
         })
         return
     }
-
+    const usernameDecrypted = CryptoJS.AES.decrypt(request.body.username, `${process.env.KEY}`).toString(CryptoJS.enc.Utf8)
+    const passwordDecrypted = CryptoJS.AES.decrypt(request.body.password, `${process.env.KEY}`).toString(CryptoJS.enc.Utf8)
     // Hash password
-    bcrypt.hash(request.body.password, 10)
+    bcrypt.hash(passwordDecrypted, 10)
         .then(hash => {
             // Create a User
             const user = {
-                username: request.body.username,
+                username: usernameDecrypted,
                 password: hash,
                 isPremium: request.body.isPremium ? request.body.isPremium : false,
                 isAdmin: request.body.isAdmin ? request.body.isAdmin : false,
@@ -39,12 +41,14 @@ exports.signup = (request, response) => {
 }
 
 exports.login = (request, response) => {
-    User.findOne({ where: { username: request.body.username } })
+    const usernameDecrypted = CryptoJS.AES.decrypt(request.body.username, `${process.env.KEY}`).toString(CryptoJS.enc.Utf8)
+    const passwordDecrypted = CryptoJS.AES.decrypt(request.body.password, `${process.env.KEY}`).toString(CryptoJS.enc.Utf8)
+    User.findOne({ where: { username: usernameDecrypted } })
         .then(user => {
             if (!user) {
                 return response.status(401).send({ message: 'User not found !' })
             }
-            bcrypt.compare(request.body.password, user.dataValues.password, function(error, result) {
+            bcrypt.compare(passwordDecrypted, user.dataValues.password, function(error, result) {
                 if (error) {
                     response.status(500).send({ message: 'Server error 1' })
                 } if (result) {
