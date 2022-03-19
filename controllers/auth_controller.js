@@ -49,15 +49,22 @@ exports.login = (request, response) => {
             if (!user) {
                 return response.status(401).send({ message: 'User not found !' })
             }
-            bcrypt.compare(passwordDecrypted, user.dataValues.password, function(error, result) {
+            bcrypt.compare(passwordDecrypted, user.dataValues.password, function (error, result) {
+                console.log(user.dataValues.id)
                 if (error) {
                     response.status(500).send({ message: 'Server error 1' })
                 } if (result) {
                     response.status(200).json({
-                        userId: user.dataValues.id,
+                        userId: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.id), `${process.env.KEY}`).toString(),
+                        isPremium: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.isPremium), `${process.env.KEY}`).toString(),
+                        isAdmin: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.isAdmin), `${process.env.KEY}`).toString(),
                         token: jsonWebToken.sign(
-                            { userId: user.dataValues.id },
-                            'RANDOM_TOKEN_SECRET',
+                            {
+                                userId: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.id), `${process.env.KEY}`).toString(),
+                                isPremium: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.isPremium), `${process.env.KEY}`).toString(),
+                                isAdmin: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.isAdmin), `${process.env.KEY}`).toString(),
+                            },
+                            process.env.TOKEN,
                             { expiresIn: '1h' }
                         )
                     })
