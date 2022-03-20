@@ -3,7 +3,7 @@ const Activity = db.activities
 
 exports.createActivity = (request, response) => {
     // Validate request
-    if (!request.body.user || !request.body.activityName || !request.body.sport || !request.body.date || !request.body.user) {
+    if (!request.params.user || !request.body.activityName || !request.body.sport || !request.body.date || !request.body.user) {
         response.status(400).send({
             message: "There are still boxes to fill in !"
         })
@@ -16,7 +16,7 @@ exports.createActivity = (request, response) => {
         sport: request.body.sport,
         item: request.body.item ? request.body.item : null,
         date: request.body.date,
-        user: request.body.user
+        user: request.params.user
     }
 
     // Save Activity in the database
@@ -34,7 +34,7 @@ exports.createActivity = (request, response) => {
 
 exports.getActivitiesByName = (request, response) => {
     const activityName = request.params.name
-    const user = request.body.user
+    const user = request.params.user
     Activity.findAll({ where: { activityName: activityName, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -48,8 +48,12 @@ exports.getActivitiesByName = (request, response) => {
 }
 
 exports.getActivitiesByUserId = (request, response) => {
-    const user = request.body.userId
-    Activity.findAll({ where: { user: user } })
+    console.log(request)
+    const user = request.params.user
+    console.log(user)
+    Activity.findAll({
+        where: { user: user }, 
+        order: [['date', 'DESC']]})
         .then(data => {
             response.status(200).send(data)
         })
@@ -63,7 +67,7 @@ exports.getActivitiesByUserId = (request, response) => {
 
 exports.getActivitiesByDate = (request, response) => {
     const date = request.params.date
-    const user = request.body.user
+    const user = request.params.user
     Activity.findAll({ where: { date: date, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -78,7 +82,7 @@ exports.getActivitiesByDate = (request, response) => {
 
 exports.getActivitiesBySport = (request, response) => {
     const sport = request.params.sport
-    const user = request.body.user
+    const user = request.params.user
     Activity.findAll({ where: { sport: sport, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -93,7 +97,7 @@ exports.getActivitiesBySport = (request, response) => {
 
 exports.getActivityById = (request, response) => {
     const id = request.params.id
-    const user = request.body.user
+    const user = request.params.user
     Activity.findAll({ where: { id: id, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -108,7 +112,7 @@ exports.getActivityById = (request, response) => {
 
 exports.updateActivity = (request, response) => {
     const id = request.params.id
-    const user = request.body.user
+    const user = request.params.user
     Activity.update(request.body, { where: { id: id, user: user } })
         .then(number => {
             if (number == 1) {
@@ -131,7 +135,7 @@ exports.updateActivity = (request, response) => {
 
 exports.deleteActivity = (request, response) => {
     const id = request.params.id
-    const user = request.body.user
+    const user = request.params.user
     Activity.destroy({
         where: { id: id, user: user }
     })
@@ -155,7 +159,7 @@ exports.deleteActivity = (request, response) => {
 }
 
 exports.deleteAllActivitiesForUser = (request, response) => {
-    const user = request.body.user
+    const user = request.params.user
     Activity.destroy({
         where: { user: user },
         truncate: false

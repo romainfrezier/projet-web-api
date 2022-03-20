@@ -5,7 +5,6 @@ const User = db.users
 const CryptoJS = require('crypto-js')
 
 exports.signup = (request, response) => {
-    console.log(process.env.KEY)
     // Validate request
     if (!request.body.username || !request.body.password) {
         response.status(400).send({
@@ -13,8 +12,22 @@ exports.signup = (request, response) => {
         })
         return
     }
+    
     const usernameDecrypted = CryptoJS.AES.decrypt(request.body.username, `${process.env.KEY}`).toString(CryptoJS.enc.Utf8)
     const passwordDecrypted = CryptoJS.AES.decrypt(request.body.password, `${process.env.KEY}`).toString(CryptoJS.enc.Utf8)
+    User.findAll({ where: { username: usernameDecrypted } })
+        .then(data => {
+            if (data.length != 0) {
+                response.status(400).send({
+                    message: "This username is already in use. Please choose another."
+                })
+                return
+            }
+        })
+        .catch(error => {
+            return response.status(500).send({ message : error})
+        })
+    
     // Hash password
     bcrypt.hash(passwordDecrypted, 10)
         .then(hash => {
@@ -60,9 +73,7 @@ exports.login = (request, response) => {
                         isAdmin: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.isAdmin), `${process.env.KEY}`).toString(),
                         token: jsonWebToken.sign(
                             {
-                                userId: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.id), `${process.env.KEY}`).toString(),
-                                isPremium: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.isPremium), `${process.env.KEY}`).toString(),
-                                isAdmin: CryptoJS.AES.encrypt(JSON.stringify(user.dataValues.isAdmin), `${process.env.KEY}`).toString(),
+                                userId: user.dataValues.id,
                             },
                             process.env.TOKEN,
                             { expiresIn: '1h' }
