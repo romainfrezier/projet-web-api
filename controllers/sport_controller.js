@@ -44,7 +44,6 @@ exports.getAllSport = (request, response) => {
 
 exports.getSportByName = (request, response) => {
     const sportName = request.params.name
-    console.log(request.params)
     Sport.findAll({ where: { sportName: sportName } })
         .then(data => {
             response.status(200).send(data)

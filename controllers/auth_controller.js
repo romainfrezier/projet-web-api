@@ -74,6 +74,8 @@ exports.login = (request, response) => {
                         token: jsonWebToken.sign(
                             {
                                 userId: user.dataValues.id,
+                                isAdmin: user.dataValues.isAdmin,
+                                isPremium: user.dataValues.isPremium
                             },
                             process.env.TOKEN,
                             { expiresIn: '1h' }

@@ -6,11 +6,11 @@ module.exports = app => {
 
     const router = express.Router()
 
-    router.post('/', admin, sport.createSport)
-    router.get('/', auth, sport.getAllSport)
-    router.get('/:id', auth, sport.getSportById)
-    router.get('/name/:name', auth, sport.getSportByName)
-    router.put('/:id', admin, sport.updateSport)
-    router.delete('/:id', admin, sport.deleteSport)
+    router.post('/:user/', admin, sport.createSport)
+    router.get('/:user/', auth, sport.getAllSport)
+    router.get('/:user/:id', auth, sport.getSportById)
+    router.get('/:user/name/:name', auth, sport.getSportByName)
+    router.put('/:user/:id', admin, sport.updateSport)
+    router.delete('/:user/:id', admin, sport.deleteSport)
     app.use('/sports', router)
 }

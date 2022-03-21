@@ -1,3 +1,4 @@
+const { raw } = require("express")
 const db = require("../models")
 const User = db.users
 
@@ -56,7 +57,7 @@ exports.getUsersByTypeAdmin = (request, response) => {
 }
 
 exports.getAllUsers = (request, response) => {
-    User.findAll()
+    User.findAll({ where: { }})
         .then(data => {
             response.status(200).send(data)
         })
@@ -70,7 +71,7 @@ exports.getAllUsers = (request, response) => {
 
 exports.updateUser = (request, response) => {
     const id = request.params.id
-    const user = request.body.user
+    const user = request.params.user
     User.update(request.body, { where: { id: id, user: user } })
         .then(modified => {
             if (modified == 1) {
@@ -93,7 +94,7 @@ exports.updateUser = (request, response) => {
 
 exports.deleteUser = (request, response) => {
     const id = request.params.id
-    const user = request.body.user
+    const user = request.params.user
     User.destroy({where: { id: id, user: user }})
         .then(deleted => {
             if (deleted == 1) {

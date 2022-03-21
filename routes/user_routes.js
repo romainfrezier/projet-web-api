@@ -6,12 +6,12 @@ module.exports = app => {
 
     const router = express.Router()
 
-    router.get('/:id', admin, user.getUserById)
-    router.get('/type/premium/', admin, user.getUsersByTypePremium)
-    router.get('/type/admin/', admin, user.getUsersByTypeAdmin)
-    router.get('/', admin, user.getAllUsers)
-    router.get('/username/:username', admin, user.getUserByUsername)
-    router.put('/:id', auth, user.updateUser)
-    router.delete('/:id', admin, user.deleteUser)
+    router.get('/:user/:id', admin, user.getUserById)
+    router.get('/:user/type/premium/', admin, user.getUsersByTypePremium)
+    router.get('/:user/type/admin/', admin, user.getUsersByTypeAdmin)
+    router.get('/:user/', admin, user.getAllUsers)
+    router.get('/:user/username/:username', admin, user.getUserByUsername)
+    router.put('/:user/:id', auth, user.updateUser)
+    router.delete('/:user/:id', admin, user.deleteUser)
     app.use('/users', router)
 }
