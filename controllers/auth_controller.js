@@ -17,11 +17,35 @@ exports.signup = (request, response) => {
     const passwordDecrypted = CryptoJS.AES.decrypt(request.body.password, `${process.env.KEY}`).toString(CryptoJS.enc.Utf8)
     User.findAll({ where: { username: usernameDecrypted } })
         .then(data => {
+            console.log(data)
             if (data.length != 0) {
                 response.status(400).send({
                     message: "This username is already in use. Please choose another."
                 })
-                return
+            } else {
+                bcrypt.hash(passwordDecrypted, 10)
+                    .then(hash => {
+                        // Create a User
+                        const user = {
+                            username: usernameDecrypted,
+                            password: hash,
+                            isPremium: request.body.isPremium ? request.body.isPremium : false,
+                            isAdmin: request.body.isAdmin ? request.body.isAdmin : false,
+                        }
+                        // Save User in the database
+                        User.create(user)
+                            .then(data => {
+                                response.status(201).send(data)
+                            })
+                            .catch(error => {
+                                response.status(400).send({
+                                    message:
+                                        error.message || "Some error occurred while creating the User..."
+                                })
+                            })
+
+                    })
+                    .catch(error => response.status(500).send({ message: error }))
             }
         })
         .catch(error => {
@@ -29,29 +53,7 @@ exports.signup = (request, response) => {
         })
     
     // Hash password
-    bcrypt.hash(passwordDecrypted, 10)
-        .then(hash => {
-            // Create a User
-            const user = {
-                username: usernameDecrypted,
-                password: hash,
-                isPremium: request.body.isPremium ? request.body.isPremium : false,
-                isAdmin: request.body.isAdmin ? request.body.isAdmin : false,
-            }
-            // Save User in the database
-            User.create(user)
-                .then(data => {
-                    response.status(201).send(data)
-                })
-                .catch(error => {
-                    response.status(400).send({
-                        message:
-                            error.message || "Some error occurred while creating the User..."
-                    })
-                })
-
-        })
-        .catch(error => response.status(500).send({ message: error }))
+    
 }
 
 exports.login = (request, response) => {

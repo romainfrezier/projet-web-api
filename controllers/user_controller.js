@@ -57,7 +57,8 @@ exports.getUsersByTypeAdmin = (request, response) => {
 }
 
 exports.getAllUsers = (request, response) => {
-    User.findAll({ where: { }})
+    User.findAll({ where: {}, order: [['id']]
+})
         .then(data => {
             response.status(200).send(data)
         })
@@ -71,8 +72,7 @@ exports.getAllUsers = (request, response) => {
 
 exports.updateUser = (request, response) => {
     const id = request.params.id
-    const user = request.params.user
-    User.update(request.body, { where: { id: id, user: user } })
+    User.update(request.body, { where: { id: id } })
         .then(modified => {
             if (modified == 1) {
                 response.status(200).send({
@@ -94,8 +94,7 @@ exports.updateUser = (request, response) => {
 
 exports.deleteUser = (request, response) => {
     const id = request.params.id
-    const user = request.params.user
-    User.destroy({where: { id: id, user: user }})
+    User.destroy({where: { id: id }})
         .then(deleted => {
             if (deleted == 1) {
                 response.status(200).send({

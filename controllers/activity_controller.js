@@ -48,9 +48,7 @@ exports.getActivitiesByName = (request, response) => {
 }
 
 exports.getActivitiesByUserId = (request, response) => {
-    console.log(request)
     const user = request.params.user
-    console.log(user)
     Activity.findAll({
         where: { user: user }, 
         order: [['date', 'DESC']]})

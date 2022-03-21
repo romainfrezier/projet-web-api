@@ -135,20 +135,3 @@ exports.deleteItem = (request, response) => {
             })
         })
 }
-
-exports.deleteAllItemsForUser = (request, response) => {
-    const user = request.body.id
-    Item.destroy({
-        where: { user: user },
-        truncate: false
-    })
-        .then(numbers => {
-            response.send({ message: `${numbers} Items were deleted successfully!` })
-        })
-        .catch(error => {
-            response.status(500).send({
-                message:
-                    error.message || "Some error occurred while removing all items."
-            })
-        })
-}

@@ -30,7 +30,7 @@ exports.createSport = (request, response) => {
 }
 
 exports.getAllSport = (request, response) => {
-    Sport.findAll({ where: {} })
+    Sport.findAll({ where: {}, order: [['sportName']]})
         .then(data => {
             response.status(200).send(data)
         })
