@@ -32,7 +32,7 @@ exports.createStatValue = (request, response) => {
 }
 
 exports.getStatValuesByUserId = (request, response) => {
-    const user = request.body.user
+    const user = request.params.user
     StatValue.findAll({ where: { user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -47,7 +47,7 @@ exports.getStatValuesByUserId = (request, response) => {
 
 exports.getStatValuesByActivity = (request, response) => {
     const activity = request.params.activity
-    const user = request.body.user
+    const user = request.params.user
     StatValue.findAll({ where: { activity: activity, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -62,7 +62,7 @@ exports.getStatValuesByActivity = (request, response) => {
 
 exports.getStatValuesByStat = (request, response) => {
     const stat = request.params.stat
-    const user = request.body.user
+    const user = request.params.user
     StatValue.findAll({ where: { stat: stat, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -78,7 +78,7 @@ exports.getStatValuesByStat = (request, response) => {
 exports.getOneStatValue = (request, response) => {
     const stat = request.params.stat
     const activity = request.params.activity
-    const user = request.body.user
+    const user = request.params.user
     StatValue.findAll({ where: { stat: stat, activity: activity, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -94,7 +94,7 @@ exports.getOneStatValue = (request, response) => {
 exports.updateStatValue = (request, response) => {
     const stat = request.params.stat
     const activity = request.params.activity
-    const user = request.body.user
+    const user = request.params.user
     StatValue.update(request.body, {
         where: { stat: stat, activity: activity, user: user }
     })
@@ -120,7 +120,7 @@ exports.updateStatValue = (request, response) => {
 exports.deleteStatValue = (request, response) => {
     const stat = request.params.stat
     const activity = request.params.activity
-    const user = request.body.user
+    const user = request.params.user
     StatValue.destroy({
         where: { stat: stat, activity: activity, user: user }
     })

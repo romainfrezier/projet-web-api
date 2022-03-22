@@ -33,7 +33,7 @@ exports.createItem = (request, response) => {
 
 exports.getItemsByName = (request, response) => {
     const itemName = request.params.name
-    const user = request.body.user
+    const user = request.params.user
     Item.findAll({ where: { itemName: itemName, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -48,7 +48,7 @@ exports.getItemsByName = (request, response) => {
 
 exports.getItemById = (request, response) => {
     const id = request.params.id
-    const user = request.body.user
+    const user = request.params.user
     Item.findAll({ where: { id: id, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -62,7 +62,7 @@ exports.getItemById = (request, response) => {
 }
 
 exports.getItemsByUserId = (request, response) => {
-    const user = request.body.user
+    const user = request.params.user
     Item.findAll({ where: { user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -77,7 +77,7 @@ exports.getItemsByUserId = (request, response) => {
 
 exports.getItemsBySport = (request, response) => {
     const sport = request.params.sport
-    const user = request.body.user
+    const user = request.params.user
     Item.findAll({ where: { sport: sport, user: user } })
         .then(data => {
             response.status(200).send(data)
@@ -92,7 +92,7 @@ exports.getItemsBySport = (request, response) => {
 
 exports.updateItem = (request, response) => {
     const id = request.params.id
-    const user = request.body.user
+    const user = request.params.user
     Item.update(request.body, { where: { id: id, user: user } })
         .then(modified => {
             if (modified == 1) {
@@ -115,7 +115,7 @@ exports.updateItem = (request, response) => {
 
 exports.deleteItem = (request, response) => {
     const id = request.params.id
-    const user = request.body.user
+    const user = request.params.user
     Item.destroy({ where: { id: id, user: user } })
         .then(deleted => {
             if (deleted == 1) {

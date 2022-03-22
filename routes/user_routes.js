@@ -12,6 +12,6 @@ module.exports = app => {
     router.get('/:user/', admin, user.getAllUsers)
     router.get('/:user/username/:username', admin, user.getUserByUsername)
     router.put('/:user/:id', auth, user.updateUser)
-    router.delete('/:user/:id', admin, user.deleteUser)
+    router.delete('/:user/:id', auth, user.deleteUser)
     app.use('/users', router)
 }
