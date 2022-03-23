@@ -8,10 +8,6 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.INTEGER,
             allowNull: true
         },
-        sport: {
-            type: dataTypes.INTEGER,
-            allowNull: false
-        },
         user: {
             type: dataTypes.INTEGER,
             allowNull: false

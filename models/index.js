@@ -6,14 +6,23 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passw
     port: dbConfig.port,
     dialect: dbConfig.dialect,
 })
+const item_model = require("./item_model")(sequelize, Sequelize)
+const sport_model = require("./sport_model")(sequelize, Sequelize)
+const activity_model = require("./activity_model")(sequelize, Sequelize)
+
+sport_model.hasMany(item_model, {foreignKey: {allowNull: false}})
+item_model.belongsTo(sport_model)
+
+sport_model.hasMany(activity_model, { foreignKey: { allowNull: false } })
+activity_model.belongsTo(sport_model)
 
 const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
-db.activities = require("./activity_model")(sequelize, Sequelize)
+db.activities = activity_model
 db.competitions = require("./competition_model")(sequelize, Sequelize)
-db.items = require("./item_model")(sequelize, Sequelize)
-db.sports = require("./sport_model")(sequelize, Sequelize)
+db.items = item_model
+db.sports = sport_model
 db.stats = require("./stat_model")(sequelize, Sequelize)
 db.statValues = require("./stat_value_model")(sequelize, Sequelize)
 db.users = require("./user_model")(sequelize, Sequelize)

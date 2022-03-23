@@ -4,10 +4,6 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.STRING,
             allowNull: false
         },
-        sport: {
-            type: dataTypes.STRING,
-            allowNull: false
-        },
         item: {
             type: dataTypes.INTEGER,
             allowNull: true

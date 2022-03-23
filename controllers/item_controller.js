@@ -1,5 +1,6 @@
 const db = require("../models")
 const Item = db.items
+const Sports = db.sports
 
 exports.createItem = (request, response) => {
     // Validate request
@@ -63,7 +64,15 @@ exports.getItemById = (request, response) => {
 
 exports.getItemsByUserId = (request, response) => {
     const user = request.params.user
-    Item.findAll({ where: { user: user } })
+    Item.findAll(
+        {
+            where: { user: user },
+            include: [{
+                model: Sports,
+                attribute: ['sportName'],
+                required: false
+            }]
+        })
         .then(data => {
             response.status(200).send(data)
         })

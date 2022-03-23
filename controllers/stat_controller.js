@@ -29,6 +29,19 @@ exports.createStat = (request, response) => {
         })
 }
 
+exports.getAllStats = (request, response) => {
+    Stat.findAll({ where: {}})
+        .then(data => {
+            response.status(200).send(data)
+        })
+        .catch(error => {
+            response.status(500).send({
+                message:
+                    error.message || "Some error occurred while retrieving stat."
+            })
+        })
+}
+
 exports.getStatByName = (request, response) => {
     const statName = request.params.name
     Stat.findAll({ where: { statName: statName } })

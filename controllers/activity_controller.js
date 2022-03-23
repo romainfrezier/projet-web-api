@@ -1,5 +1,6 @@
 const db = require("../models")
 const Activity = db.activities
+const Sports = db.sports
 
 exports.createActivity = (request, response) => {
     // Validate request
@@ -50,8 +51,10 @@ exports.getActivitiesByName = (request, response) => {
 exports.getActivitiesByUserId = (request, response) => {
     const user = request.params.user
     Activity.findAll({
-        where: { user: user }, 
-        order: [['date', 'DESC']]})
+        where: { user: user },
+        include: Sports,
+        order: [['date', 'DESC']]
+    })
         .then(data => {
             response.status(200).send(data)
         })

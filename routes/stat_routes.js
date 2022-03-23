@@ -7,6 +7,7 @@ module.exports = app => {
     const router = express.Router()
 
     router.post('/:user/', admin, stat.createStat)
+    router.get('/:user/', auth, stat.getAllStats)
     router.get('/:user/:id', auth, stat.getStatById)
     router.get('/:user/name/:name', auth, stat.getStatByName)
     router.get('/:user/sport/:sport', auth, stat.getStatsBySport)
