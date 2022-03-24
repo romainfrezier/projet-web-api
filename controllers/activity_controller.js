@@ -4,7 +4,7 @@ const Sports = db.sports
 
 exports.createActivity = (request, response) => {
     // Validate request
-    if (!request.params.user || !request.body.activityName || !request.body.sport || !request.body.date || !request.body.user) {
+    if (!request.params.user || !request.body.activityName || !request.body.sportId || !request.body.date) {
         response.status(400).send({
             message: "There are still boxes to fill in !"
         })
@@ -14,10 +14,13 @@ exports.createActivity = (request, response) => {
     // Create an Activity
     const activity = {
         activityName: request.body.activityName,
-        sport: request.body.sport,
+        sportId: request.body.sportId,
         item: request.body.item ? request.body.item : null,
         date: request.body.date,
-        user: request.params.user
+        user: request.params.user,
+        distance: request.body.distance,
+        height: request.body.height,
+        time: request.body.time,
     }
 
     // Save Activity in the database
@@ -84,7 +87,7 @@ exports.getActivitiesByDate = (request, response) => {
 exports.getActivitiesBySport = (request, response) => {
     const sport = request.params.sport
     const user = request.params.user
-    Activity.findAll({ where: { sport: sport, user: user } })
+    Activity.findAll({ where: { sportId: sport, user: user } })
         .then(data => {
             response.status(200).send(data)
         })

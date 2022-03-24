@@ -15,6 +15,17 @@ module.exports = (sequelize, dataTypes) => {
         user: {
             type: dataTypes.INTEGER,
             allowNull: false
+        },
+        time: {
+            type: dataTypes.DATE,
+            allowNull: true
+        },
+        distance: {
+            type: dataTypes.REAL,
+            allowNull: true
+        },
+        height: {
+            type: dataTypes.INTEGER
         }
     },
         {

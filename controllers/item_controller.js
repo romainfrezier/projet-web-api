@@ -4,7 +4,7 @@ const Sports = db.sports
 
 exports.createItem = (request, response) => {
     // Validate request
-    if (!request.body.itemName || !request.body.sport || !request.body.user) {
+    if (!request.body.itemName || !request.body.sportId || !request.body.user) {
         response.status(400).send({
             message: "There are still boxes to fill in !"
         })
@@ -15,7 +15,7 @@ exports.createItem = (request, response) => {
     const item = {
         itemName: request.body.itemName,
         usage: request.body.usage ? request.body.usage : null,
-        sport: request.body.sport,
+        sportId: request.body.sportId,
         user: request.body.user
     }
 

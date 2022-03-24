@@ -23,7 +23,6 @@ db.activities = activity_model
 db.competitions = require("./competition_model")(sequelize, Sequelize)
 db.items = item_model
 db.sports = sport_model
-db.stats = require("./stat_model")(sequelize, Sequelize)
 db.statValues = require("./stat_value_model")(sequelize, Sequelize)
 db.users = require("./user_model")(sequelize, Sequelize)
 

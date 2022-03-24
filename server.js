@@ -24,7 +24,6 @@ require('./routes/auth_routes')(app)
 require('./routes/competition_routes')(app)
 require('./routes/item_routes')(app)
 require('./routes/sport_routes')(app)
-require('./routes/stat_routes')(app)
 require('./routes/stat_value_routes')(app)
 require('./routes/user_routes')(app)
 
