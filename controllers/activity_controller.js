@@ -18,9 +18,6 @@ exports.createActivity = (request, response) => {
         item: request.body.item ? request.body.item : null,
         date: request.body.date,
         user: request.params.user,
-        distance: request.body.distance,
-        height: request.body.height,
-        time: request.body.time,
     }
 
     // Save Activity in the database

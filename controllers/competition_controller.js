@@ -1,9 +1,11 @@
+const { response } = require("express")
+const { request } = require("http")
 const db = require("../models")
 const Competition = db.competitions
 
 exports.createCompetition = (request, response) => {
     // Validate request
-    if (!request.body.competDate || !request.body.sport || !request.body.competName ) {
+    if (!request.body.competDate || !request.body.sport || !request.body.competName || !request.body.place) {
         response.status(400).send({
             message: "There are still boxes to fill in !"
         })
@@ -14,7 +16,8 @@ exports.createCompetition = (request, response) => {
     const competition = {
         competDate: request.body.competDate,
         sport: request.body.sport,
-        competName: request.body.competName
+        competName: request.body.competName,
+        place: request.body.place
     }
 
     // Save Competition in the database
@@ -26,6 +29,19 @@ exports.createCompetition = (request, response) => {
             response.status(500).send({
                 message:
                     error.message || "Some error occurred while creating the Competition..."
+            })
+        })
+}
+
+exports.getAllCompetitions = (request, response) => {
+    Competition.findAll({ where: { } })
+        .then(data => {
+            response.status(200).send(data)
+        })
+        .catch(error => {
+            response.status(500).send({
+                message:
+                    error.message || "Some error occurred while retrieving competitions."
             })
         })
 }

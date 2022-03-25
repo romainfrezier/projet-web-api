@@ -12,6 +12,10 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.STRING,
             allowNull: false
         },
+        place: {
+            type: dataTypes.STRING,
+            allowNull: false
+        }
     },
         {
             timestamps: false

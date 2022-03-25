@@ -5,12 +5,13 @@ module.exports = app => {
 
     const router = express.Router()
 
-    router.post('/', premium, competition.createCompetition)
-    router.get('/:id', premium, competition.getCompetitionById)
-    router.get('/date/:date', premium, competition.getCompetitionsByDate)
-    router.get('/sport/:sport', premium, competition.getCompetitionsBySport)
-    router.get('/name/:name', premium, competition.getCompetitionsByName)
-    router.put('/:id', premium, competition.updateCompetition)
-    router.delete('/:id', premium, competition.deleteCompetition)
+    router.post('/:user/', premium, competition.createCompetition)
+    router.get('/:user/', premium, competition.getAllCompetitions)
+    router.get('/:user/:id', premium, competition.getCompetitionById)
+    router.get('/:user/date/:date', premium, competition.getCompetitionsByDate)
+    router.get('/:user/sport/:sport', premium, competition.getCompetitionsBySport)
+    router.get('/:user/name/:name', premium, competition.getCompetitionsByName)
+    router.put('/:user/:id', premium, competition.updateCompetition)
+    router.delete('/:user/:id', premium, competition.deleteCompetition)
     app.use('/competitions', router)
 }

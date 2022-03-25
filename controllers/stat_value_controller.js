@@ -3,7 +3,7 @@ const StatValue = db.statValues
 
 exports.createStatValue = (request, response) => {
     // Validate request
-    if (!request.body.activity || !request.body.stat || !request.body.value || !request.params.user) {
+    if (!request.body.activity || !request.params.stat || !request.body.value || !request.params.user) {
         response.status(400).send({
             message: "There are still boxes to fill in !"
         })
@@ -13,7 +13,7 @@ exports.createStatValue = (request, response) => {
     // Create a Stat Value
     const statValue = {
         activity: request.body.activity,
-        stat: request.body.stat,
+        stat: request.params.stat,
         value: request.body.value,
         user: request.params.user,
     }
