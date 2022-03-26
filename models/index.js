@@ -1,22 +1,17 @@
-// const dbConfig = require("../config/db_config")
-// const Sequelize = require("sequelize")
-// const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
-//     host: dbConfig.host,
-//     schema: dbConfig.schema,
-//     port: dbConfig.port,
-//     dialect: dbConfig.dialect,
-// })
-
-const Sequelize = require('sequelize');
-sequelize = new Sequelize(process.env.DATABASE_URL, {
+const dbConfig = require("../config/db_config")
+const Sequelize = require("sequelize")
+const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
+    host: dbConfig.host,
+    schema: dbConfig.schema,
+    port: dbConfig.port,
+    dialect: dbConfig.dialect,
     dialectOptions: {
         ssl: {
             require: true,
             rejectUnauthorized: false
         }
     }
-}
-);
+})
 
 sequelize
     .authenticate()
@@ -26,6 +21,7 @@ sequelize
     .catch(err => {
         console.error('Unable to connect to the database:', err);
     });
+
 
 const item_model = require("./item_model")(sequelize, Sequelize)
 const sport_model = require("./sport_model")(sequelize, Sequelize)
