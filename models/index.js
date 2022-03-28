@@ -1,25 +1,25 @@
 // Use it for localhost
 
-const dbConfig = require("../config/db_config")
-const Sequelize = require("sequelize")
-const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
-    host: dbConfig.host,
-    schema: dbConfig.schema,
-    port: dbConfig.port,
-    dialect: dbConfig.dialect,
-})
+// const dbConfig = require("../config/db_config")
+// const Sequelize = require("sequelize")
+// const sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
+//     host: dbConfig.host,
+//     schema: dbConfig.schema,
+//     port: dbConfig.port,
+//     dialect: dbConfig.dialect,
+// })
 
 // Use it for heroku host
-// const Sequelize = require('sequelize');
-// const sequelize = new Sequelize(process.env.DATABASE_URL, {
-//     dialectOptions: {
-//         ssl: {
-//             require: true,
-//             rejectUnauthorized: false
-//         }
-//     }
-// }
-// );
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+}
+);
 
 sequelize.authenticate()
     .then(() => {
