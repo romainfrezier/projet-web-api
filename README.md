@@ -14,4 +14,4 @@ ___
 
 Website Link : https://poly-activitiz.herokuapp.com/
 
-Frontend github : https://github.com/romainfrz/projet-web-client
+Frontend github : https://github.com/romainfrezier/projet-web-client
